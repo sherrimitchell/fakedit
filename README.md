@@ -3,6 +3,7 @@ This a basic link aggregator application built using Rails. The application allo
 * Sign up and sign in
 * Post links
 * Delete links
+* Vote on links
 * Add comments when logged in
 * View links and comments ordered by how recent they are
 * Click on a link and visit a page
@@ -15,3 +16,4 @@ This a basic link aggregator application built using Rails. The application allo
 **Development Tools, Gems and Methodologies:**
 
 Devise for user authentication
+Acts as Votable
