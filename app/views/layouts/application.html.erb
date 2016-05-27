@@ -5,27 +5,64 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+
+  <!-- Bootstrap core CSS -->
+  <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+  <div class="container">
+    <nav class="navbar navbar-light bg-faded">
+      <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#navbar-header" aria-controls="navbar-header">
+        &#9776;
+      </button>
+      <div class="collapse navbar-toggleable-xs" id="navbar-header">
+        <div id="logo" class="navbar-brand"><%= link_to "Faddit", root_path %></div>
+        <% if user_signed_in? %>
+        <ul class="nav navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link"><%= link_to "Home", root_path %><span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"><%= link_to 'Submit Link', new_link_path %></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"><%= link_to 'Account', edit_user_registration_path %></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"><%= link_to 'Sign Out', destroy_user_session_path, method: :delete %></a>
+          </li>
+        </ul>
+        <% else %>
+        <ul>
+          <li><%= link_to 'Sign Up', new_user_registration_path %></li>
+          <li><%= link_to 'Login', new_user_session_path %></li>
+        </ul>
+        <% end %>
+      </div>
+    </nav> <!-- /navbar -->
 
-  <% flash.each do |name, msg| %>
-    <% content_tag(:div, msg, class: "alert-#{name}") %>
-  <% end %>
+    <!-- Main component for a primary marketing message or call to action -->
+    <div id="main-content" class="jumbotron">
+      <% flash.each do |name, msg| %>
+        <% content_tag(:div, msg, class: "alert-#{name}") %>
+      <% end %>
 
-  <% if user_signed_in? %>
-    <ul>
-      <li><%= link_to 'Submit Link', new_link_path %></li>
-      <li><%= link_to 'Account', edit_user_registration_path %></li>
-      <li><%= link_to 'Sign Out', destroy_user_session_path, method: :delete %></li>
-    </ul>
-    <% else %>
-    <ul>
-      <li><%= link_to 'Sign Up', new_user_registration_path %></li>
-      <li><%= link_to 'Login', new_user_session_path %></li>
-    </ul>
-    <% end %>
+      <div id="content" class="col-md-9 center-block">
+				<%= yield %>
+			</div>
+    </div>
 
-<%= yield %>
+  </div> <!-- /container -->
 
+
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+  <script src="../../dist/js/bootstrap.min.js"></script>
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 </body>
 </html>

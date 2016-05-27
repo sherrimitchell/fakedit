@@ -11,15 +11,20 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :title %><br>
+<div class="form">
+  <fieldset class="form-group">
+    <%= f.label :title %>
     <%= f.text_field :title %>
-  </div>
-  <div class="field">
-    <%= f.label :url %><br>
+  </fieldset>
+</div>
+  <div class="form">
+  <fieldset class="form-group">
+    <%= f.label :url %>
     <%= f.text_field :url %>
-  </div>
+  </fieldset>
+</div>
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
+</form>
