@@ -17,3 +17,4 @@ This a basic link aggregator application built using Rails. The application allo
 
 Devise for user authentication
 Acts as Votable
+Simple form
