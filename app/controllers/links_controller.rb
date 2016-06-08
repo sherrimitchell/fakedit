@@ -1,4 +1,4 @@
-class LinksController < ApplicationController
+  class LinksController < ApplicationController
   before_action :set_link, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show]
   before_action :authorized_user, only: [:edit, :update, :destroy]
@@ -16,7 +16,7 @@ class LinksController < ApplicationController
 
   # GET /links/new
   def new
-    @link = current_user.links.build
+    @link = Link.new
   end
 
   # GET /links/1/edit
@@ -26,7 +26,8 @@ class LinksController < ApplicationController
   # POST /links
   # POST /links.json
   def create
-    @link = current_user.links.build(link_params)
+    params = link_params.merge(created_at: DateTime.now)
+    @link = current_user.links.create(params)
 
     respond_to do |format|
       if @link.save
@@ -43,7 +44,8 @@ class LinksController < ApplicationController
   # PATCH/PUT /links/1.json
   def update
     respond_to do |format|
-      if @link.update(link_params)
+      if @link.user == current_user
+        @link.update(link_params)
         format.html { redirect_to @link, notice: 'Link was successfully updated.' }
         format.json { render :show, status: :ok, location: @link }
       else
@@ -81,13 +83,14 @@ class LinksController < ApplicationController
       @link = Link.find(params[:id])
     end
 
-    def authorized_user
-      @link = current_user.links.find_by(params[:id])
-      redirect_to links_path, notice: "Not authorized to edit this link." if @link.nil?
-    end
-
     # Never trust parameters from the scary internet, only allow the white list through.
     def link_params
-      params.require(:link).permit(:title, :url)
+      params.require(:link, :user_id).permit(:title, :url)
+    end
+
+    def authorized_user
+      link = set_link
+      is_author = current_user.links.include? link
+      !is_author? redirect_to links_path, notice: "Not authorized to edit this link."
     end
 end
