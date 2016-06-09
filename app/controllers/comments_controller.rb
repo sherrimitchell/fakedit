@@ -6,8 +6,9 @@ class CommentsController < ApplicationController
   # POST /comments.json
   def create
     @link = Link.find(params[:link_id])
+    params = comment_params.merge(created_at: DateTime.now)
+    @comment = @link.comments.new(comment_params)
     @comment.user = current_user
-    @comment = @link.comments.create(comment_params)
 
     respond_to do |format|
       if @comment.save
@@ -38,6 +39,6 @@ class CommentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
-      params.require(:comment).permit(:body, :user_id, :link_id)
+      params.require(:comment).permit(:body, :link_id, :user_id)
     end
 end

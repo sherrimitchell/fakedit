@@ -85,7 +85,7 @@
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def link_params
-      params.require(:link, :user_id).permit(:title, :url)
+      params.require(:link).permit(:title, :url, :user_id)
     end
 
     def authorized_user
