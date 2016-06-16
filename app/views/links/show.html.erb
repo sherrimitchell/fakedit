@@ -1,23 +1,26 @@
 <div class="page-header">
-  <h1><a href="<%= @link.url %>"><%= @link.title %></a><br> <small> Submitted by <%= @link.user.username %></small></h1>
-</div>
-
-<div class="btn-group">
-	<%= link_to 'Visit URL', @link.url, class: "btn btn-primary" %>
+  <a class="btn btn-default btn-sm" href="<%= @link.url %>"><%= link_to @link.title %></a><br>
+      <small class="author">Submitted <%= time_ago_in_words(@link.created_at) %> by <%= @link.user.username %></small>
 </div>
 
 <div class="btn-group pull-right">
   <%= link_to like_link_path(@link), method: :put, class: "btn btn-default btn-sm" do %>
-    <span class="glyphicon glyphicon-chevron-up"></span>
-    Upvote
-    <%= @link.get_upvotes.size %>
-  <% end %>
-  <%= link_to dislike_link_path(@link), method: :put, class: "btn btn-default btn-sm" do %>
-    <span class="glyphicon glyphicon-chevron-down">
-    Downvote
-    <%= @link.get_downvotes.size %>
-  <% end %>
+      <span class="glyphicon glyphicon-chevron-up"></span>
+      Upvote
+      <%= @link.get_upvotes.size %>
+    <% end %>
+    <%= link_to dislike_link_path(@link), method: :put, class: "btn btn-default btn-sm" do %>
+      <span class="glyphicon glyphicon-chevron-down">
+      Downvote
+      <%= @link.get_downvotes.size %>
+    <% end %>
 </div>
+
+<h3 class="comments_title"><%= link_to link_path(@link) do %>
+  comments
+  <%= @link.comments.count %>
+  <% end %>
+  </h3>
 
 <% if @link.user == current_user -%>
 	<div class="btn-group">
@@ -26,17 +29,12 @@
 	</div>
 <% end %>
 
-<h3 class="comments_title">
-  <%= @link.comments.count %> Comments
-</h3>
+<div class="comments">
+  <% if current_user %>
+    <%= render partial: "comments/form", locals: { link: @link } %>
+  <% end %>
 
-<div id="comments">
-  <%= render :partial => @link.comments %>
+  <% @link.comments.each do |c| %>
+    <%= render partial: "comments/comment", locals: { comment: c } %>
+  <% end %>
 </div>
-<%= simple_form_for [@link, Comment.new]  do |f| %>
-  <div class="field">
-    <%= f.text_area :body, class: "form-control" %>
-  </div>
-  <br>
-  <%= f.submit "Add Comment", class: "btn btn-primary" %>
-<% end %>
