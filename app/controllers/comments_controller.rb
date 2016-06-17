@@ -6,7 +6,6 @@ class CommentsController < ApplicationController
   # POST /comments.json
   def create
     @link = Link.find(params[:link_id])
-    params = comment_params.merge(created_at: DateTime.now)
     @comment = @link.comments.new(comment_params)
     @comment.user = current_user
 

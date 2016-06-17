@@ -1,6 +1,6 @@
 <div class="page-header">
   <a class="btn btn-default btn-sm" href="<%= @link.url %>"><%= link_to @link.title %></a><br>
-      <small class="author">Submitted <%= time_ago_in_words(@link.created_at) %> by <%= @link.user.username %></small>
+      <small class="author">Submitted <%= @link.created_at %> by <%= @link.user.username %></small>
 </div>
 
 <div class="btn-group pull-right">
